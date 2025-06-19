@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BuildPro - Products and Services</title>
+    <!-- Tailwind CSS CDN for modern styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for animations and font */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Fade-in animation for header text */
+        .fade-in-up {
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in-up.hidden-initial {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .fade-in-up.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* Styles for the scroll-to-top button */
+        #scrollToTopBtn {
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        /* Lightbox specific styles (copied from gallery) */
+        .lightbox-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        }
+        .lightbox-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .lightbox-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .lightbox-img {
+            max-width: 100%;
+            max-height: 80vh; /* Limit image height to viewport */
+            object-fit: contain;
+            border-radius: 0.5rem;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+        .lightbox-close, .lightbox-nav {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            font-size: 2rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.3s;
+            z-index: 1001; /* Ensure buttons are above image */
+        }
+        .lightbox-close:hover, .lightbox-nav:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+        .lightbox-close {
+            top: 1rem;
+            right: 1rem;
+            font-size: 2rem;
+            line-height: 1;
+        }
+        .lightbox-nav.prev {
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .lightbox-nav.next {
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .clickable-img {
+            transition: transform 0.2s ease-in-out, filter 0.2s ease-in-out;
+            cursor: pointer;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .clickable-img:hover {
+            transform: scale(1.05);
+            filter: brightness(0.8);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col bg-pink-100"> <!-- Background color set with Tailwind -->
+
+    <!-- Header Section -->
+    <header class="bg-blue-800 text-white py-6 shadow-lg">
+        <div class="container mx-auto px-4 text-center">
+            <!-- Logo (placeholder) -->
+            <img id="logo-image" src="gallery/logo.png" alt="BuildPro Logo" class="mx-auto mb-4 rounded-lg shadow-md">
+            <!-- Main Heading with Animation -->
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-2 italic fade-in-up hidden-initial" id="main-heading">
+                WELCOME TO BUILDPRO CONSTRUCTIONS
+            </h1>
+            <!-- Sub-heading with Animation -->
+            <h2 class="text-xl md:text-2xl font-semibold italic fade-in-up hidden-initial" id="sub-heading">
+                "Constructing the future"
+            </h2>
+        </div>
+    </header>
+
+    <!-- Navigation Section -->
+    <nav class="bg-blue-700 shadow-md py-4 sticky top-0 z-50">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <!-- Hamburger menu for mobile -->
+            <button id="nav-toggle" class="md:hidden text-white focus:outline-none">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+            </button>
+            <!-- Navigation Links -->
+            <ul id="nav-menu" class="hidden md:flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-8 text-lg font-medium w-full md:w-auto">
+                <li><a href="index.html" class="block md:inline-block text-white hover:text-yellow-400 p-2 rounded-md transition duration-300">Home</a></li>
+                <li><a href="aboutus.html" class="block md:inline-block text-white hover:text-yellow-400 p-2 rounded-md transition duration-300">About Us</a></li>
+                <li><a href="contactus.html" class="block md:inline-block text-white hover:text-yellow-400 p-2 rounded-md transition duration-300">Contact Us</a></li>
+                <li><a href="gallery.html" class="block md:inline-block text-white hover:text-yellow-400 p-2 rounded-md transition duration-300">Gallery</a></li>
+                <li><a href="projects.html" class="block md:inline-block text-white hover:text-yellow-400 p-2 rounded-md transition duration-300">Projects</a></li>
+                <li><a href="products and services.html" class="block md:inline-block text-white hover:text-yellow-400 p-2 rounded-md transition duration-300">Products & Services</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content Section -->
+    <main class="container mx-auto mt-8 p-6 flex-grow bg-white shadow-lg rounded-lg text-center">
+        <h1 class="text-3xl md:text-4xl font-bold text-blue-800 mb-6 text-center italic fade-in-up hidden-initial" id="products-services-heading">
+            Our Products and Services
+        </h1>
+
+        <!-- Our Services Section -->
+        <section class="mb-10">
+            <h2 class="text-2xl md:text-3xl font-bold text-blue-800 mb-4">Our Services</h2>
+            <ul class="list-disc list-inside text-gray-800 space-y-3 text-lg mb-6">
+                <li><strong class="font-semibold text-blue-700">Construction Services:</strong> We offer a wide range of construction services, including building design, project management, and construction execution.</li>
+                <li><strong class="font-semibold text-blue-700">Renovation Services:</strong> Our renovation services include kitchen and bathroom remodeling, interior design, and exterior renovations.</li>
+            </ul>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-4" id="services-images">
+                <img src="gallery/kitchen renovation.jpg" alt="Kitchen Renovation" class="w-full h-auto object-cover clickable-img">
+                <img src="gallery/bathroom.jfif" alt="Bathroom" class="w-full h-auto object-cover clickable-img">
+                <img src="gallery/interior.jfif" alt="Interior" class="w-full h-auto object-cover clickable-img">
+                <img src="gallery/exterior.jfif" alt="Exterior" class="w-full h-auto object-cover clickable-img">
+            </div>
+        </section>
+
+        <!-- Our Products Section -->
+        <section class="mb-10">
+            <h2 class="text-2xl md:text-3xl font-bold text-blue-800 mb-4">Our Products</h2>
+            <ul class="list-disc list-inside text-gray-800 space-y-3 text-lg mb-6">
+                <li><strong class="font-semibold text-blue-700">Building Materials:</strong> We offer a variety of building materials, including lumber, roofing materials, and insulation.</li>
+            </ul>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4" id="materials-images">
+                <img src="gallery/lumber.jfif" alt="Lumber" class="w-full h-auto object-cover clickable-img">
+                <img src="gallery/roofing.jfif" alt="Roofing" class="w-full h-auto object-cover clickable-img">
+                <img src="gallery/insulation.jfif" alt="Insulation" class="w-full h-auto object-cover clickable-img">
+            </div>
+
+            <ul class="list-disc list-inside text-gray-800 space-y-3 text-lg mt-6 mb-6">
+                <li><strong class="font-semibold text-blue-700">Construction Equipment:</strong> Our construction equipment includes excavators, cranes, and concrete mixers.</li>
+            </ul>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4" id="equipment-images">
+                <img src="gallery/excavator.jfif" alt="Excavator" class="w-full h-auto object-cover clickable-img">
+                <img src="gallery/cranes.jfif" alt="Cranes" class="w-full h-auto object-cover clickable-img">
+                <img src="gallery/mixer.jfif" alt="Mixer" class="w-full h-auto object-cover clickable-img">
+            </div>
+        </section>
+
+        <!-- Our Benefits Section -->
+        <section class="mb-10">
+            <h2 class="text-2xl md:text-3xl font-bold text-blue-800 mb-4">Our Benefits</h2>
+            <ul class="list-disc list-inside text-gray-800 space-y-3 text-lg">
+                <li>We pride ourselves on delivering high-quality services and products that meet our customers' needs and expectations.</li>
+                <li>Our team of experts has years of experience in the construction industry, ensuring that our services and products are of the highest quality.</li>
+            </ul>
+        </section>
+    </main>
+
+    <!-- Lightbox Overlay (Hidden by default) -->
+    <div id="lightbox-overlay" class="lightbox-overlay">
+        <div class="lightbox-content">
+            <img id="lightbox-img" class="lightbox-img" src="" alt="Enlarged Image">
+            <button id="lightbox-close" class="lightbox-close">&times;</button>
+            <button id="lightbox-prev" class="lightbox-nav prev">&#10094;</button>
+            <button id="lightbox-next" class="lightbox-nav next">&#10095;</button>
+        </div>
+    </div>
+
+    <!-- Scroll to Top Button -->
+    <button id="scrollToTopBtn" class="fixed bottom-6 right-6 bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 focus:outline-none hidden transition-all duration-300">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+        </svg>
+    </button>
+
+    <!-- Footer Section -->
+    <footer class="bg-blue-800 text-white py-6 mt-8 shadow-inner">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-lg">&copy; <span id="current-year"></span> BuildPro Constructions. All rights reserved.</p>
+            <p class="mt-2 text-md">Follow us on:
+                <span class="social-icons ml-2">
+                    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="text-white hover:text-yellow-400 mx-2 transition duration-300">Facebook</a>
+                    <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" class="text-white hover:text-yellow-400 mx-2 transition duration-300">Twitter</a>
+                    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="text-white hover:text-yellow-400 mx-2 transition duration-300">Instagram</a>
+                </span>
+            </p>
+            <p class="mt-4">
+                <a href="#top" class="text-blue-200 hover:underline">Back to top</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- JavaScript for dynamic functionality -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Dynamic Copyright Year
+            const yearSpan = document.getElementById('current-year');
+            if (yearSpan) {
+                yearSpan.textContent = new Date().getFullYear();
+            }
+
+            // 2. Active Navigation Highlight
+            const navLinks = document.querySelectorAll('nav ul li a');
+            const path = window.location.pathname;
+            const page = path.split('/').pop() || 'index.html';
+
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === page) {
+                    link.classList.add('text-yellow-400', 'bg-blue-600', 'px-3', 'py-1', 'rounded-md');
+                }
+            });
+
+            // 3. Scroll-to-Top Button
+            const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+            if (scrollToTopBtn) {
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 200) {
+                        scrollToTopBtn.classList.remove('hidden');
+                    } else {
+                        scrollToTopBtn.classList.add('hidden');
+                    }
+                });
+                scrollToTopBtn.addEventListener('click', () => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            }
+
+            // 4. Responsive Navigation (Hamburger Menu)
+            const navToggle = document.getElementById('nav-toggle');
+            const navMenu = document.getElementById('nav-menu');
+            if (navToggle && navMenu) {
+                navToggle.addEventListener('click', () => {
+                    navMenu.classList.toggle('hidden');
+                    navMenu.classList.toggle('flex');
+                });
+                navMenu.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        if (navMenu.classList.contains('flex')) {
+                            navMenu.classList.add('hidden');
+                            navMenu.classList.remove('flex');
+                        }
+                    });
+                });
+            }
+
+            // 5. Header Text Animation
+            const productsServicesHeading = document.getElementById('products-services-heading');
+            if (productsServicesHeading) {
+                setTimeout(() => {
+                    productsServicesHeading.classList.remove('hidden-initial');
+                    productsServicesHeading.classList.add('show');
+                }, 200);
+            }
+            // Animate main header (for consistency across pages)
+            const mainHeading = document.getElementById('main-heading');
+            const subHeading = document.getElementById('sub-heading');
+            if (mainHeading) {
+                setTimeout(() => {
+                    mainHeading.classList.remove('hidden-initial');
+                    mainHeading.classList.add('show');
+                }, 200);
+            }
+            if (subHeading) {
+                setTimeout(() => {
+                    subHeading.classList.remove('hidden-initial');
+                    subHeading.classList.add('show');
+                }, 500);
+            }
+
+            // 6. Image Lightbox for all clickable images on this page
+            const lightboxOverlay = document.getElementById('lightbox-overlay');
+            const lightboxImg = document.getElementById('lightbox-img');
+            const lightboxClose = document.getElementById('lightbox-close');
+            const lightboxPrev = document.getElementById('lightbox-prev');
+            const lightboxNext = document.getElementById('lightbox-next');
+            let currentImageIndex = 0;
+            let allPageImages = []; // Array to store all images that can be viewed in lightbox
+
+            // Collect all clickable images on the page
+            const initializeClickableImages = () => {
+                allPageImages = Array.from(document.querySelectorAll('.clickable-img'));
+            };
+
+            const openLightbox = (imgElement) => {
+                lightboxImg.src = imgElement.src;
+                lightboxOverlay.classList.add('show');
+                document.body.style.overflow = 'hidden'; // Prevent scrolling when lightbox is open
+
+                // Find the index of the clicked image in the allPageImages array
+                currentImageIndex = allPageImages.findIndex(img => img.src === imgElement.src);
+            };
+
+            const closeLightbox = () => {
+                lightboxOverlay.classList.remove('show');
+                document.body.style.overflow = ''; // Restore scrolling
+            };
+
+            const showNextImage = () => {
+                currentImageIndex = (currentImageIndex + 1) % allPageImages.length;
+                lightboxImg.src = allPageImages[currentImageIndex].src;
+            };
+
+            const showPrevImage = () => {
+                currentImageIndex = (currentImageIndex - 1 + allPageImages.length) % allPageImages.length;
+                lightboxImg.src = allPageImages[currentImageIndex].src;
+            };
+
+            // Event listener for opening lightbox on any clickable image
+            document.body.addEventListener('click', (event) => {
+                if (event.target.classList.contains('clickable-img')) {
+                    openLightbox(event.target);
+                }
+            });
+
+            // Event listeners for lightbox controls
+            lightboxClose.addEventListener('click', closeLightbox);
+            lightboxNext.addEventListener('click', showNextImage);
+            lightboxPrev.addEventListener('click', showPrevImage);
+
+            // Keyboard navigation for lightbox
+            document.addEventListener('keydown', (event) => {
+                if (lightboxOverlay.classList.contains('show')) {
+                    if (event.key === 'Escape') {
+                        closeLightbox();
+                    } else if (event.key === 'ArrowRight') {
+                        showNextImage();
+                    } else if (event.key === 'ArrowLeft') {
+                        showPrevImage();
+                    }
+                }
+            });
+
+            // Initialize images for lightbox after DOM is loaded
+            initializeClickableImages();
+        });
+    </script>
+</body>
+</html>
